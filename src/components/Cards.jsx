@@ -3,12 +3,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Search from "./Search";
+import Modal from "./Modal";
 
 const Cards = () => {
   const [movie, setMovie] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
-  
+  const [showModal, setShowModal] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   const settings = {
     dots: true,
@@ -16,6 +17,16 @@ const Cards = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+  };
+
+  const handleShowModal = (movie) => {
+    setSelectedMovie(movie);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedMovie(null);
   };
 
   return (
@@ -39,7 +50,10 @@ const Cards = () => {
               <div className="flex flex-col justify-center items-center gap-4 p-4">
                 <p className="text-xl font-semibold">{val.Title}</p>
                 <p>{val.Year}</p>
-                <button className="bg-indigo-800 text-white text-lg px-6 py-1 rounded-xl">
+                <button
+                  onClick={() => handleShowModal(val)}
+                  className="bg-indigo-800 text-white text-lg px-6 py-1 rounded-xl"
+                >
                   Read more
                 </button>
               </div>
@@ -47,6 +61,9 @@ const Cards = () => {
           ))}
         </Slider>
       </div>
+      {showModal && (
+        <Modal movie={selectedMovie} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };

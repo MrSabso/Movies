@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-
 const Search = ({ search, setSearch, setMovie }) => {
 
     const fetchMovie = async (query = "marvel") => {
